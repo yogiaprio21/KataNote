@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KataNote</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Rubik+Wet+Paint&family=Truculenta:opsz,wght@12..72,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+
+    <loading-indicator></loading-indicator>
+  
+    <custom-header></custom-header>
+
+    <div class="container">
+      <div class="notes-container"></div>
+
+      <div class="note-form">
+        <label for="title">Judul Catatan</label>
+        <input type="text" id="title" name="title" />
+        <span id="title-indicator" class="indicator"></span>
+        <span id="title-error" class="error"></span>
+
+        <label for="body">Isi Catatan</label>
+        <textarea id="body" name="body"></textarea>
+        <span id="body-indicator" class="indicator"></span>
+        <span id="body-error" class="error"></span>
+
+        <button id="add-note">Tambah Catatan</button>
+      </div>
+    </div>
+
+    <div class="archived-container">
+      <h2>Catatan Terarsip</h2>
+      <div class="archived-notes"></div>
+    </div>
+    
+    
+    <custom-footer>Yogi Aprio &copy; Belajar Fundamental Front-End</custom-footer>
+  </body>
+</html>
