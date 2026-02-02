@@ -1,3 +1,4 @@
+import { navigateTo } from '../script/routes.js';
 import Swal from 'sweetalert2';
 
 class LoginComponent extends HTMLElement {
@@ -150,9 +151,7 @@ class LoginComponent extends HTMLElement {
           timer: 2000,
           showConfirmButton: false,
         }).then(() => {
-          window.location.hash = '/home';
-          // Dispatch a popstate event to trigger the router
-          window.dispatchEvent(new PopStateEvent('popstate'));
+          navigateTo('/home');
         });
       } else {
         Swal.fire({

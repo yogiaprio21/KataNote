@@ -24,20 +24,22 @@ const render = (page) => {
 
 const router = () => {
   const path = window.location.pathname;
-  console.log(`Navigating to: ${path}`); // Debug log
-  const page = routes[path] || Login;  // Ganti halaman default jika rute tidak ditemukan
+  const page = routes[path] || LoginComponent;
   render(page);
 };
 
 window.addEventListener('load', router);
 window.addEventListener('popstate', router);
 
+export const navigateTo = (path) => {
+  window.history.pushState(null, null, path);
+  router();
+};
+
 document.body.addEventListener('click', (e) => {
   if (e.target.matches('[data-link]')) {
     e.preventDefault();
-    const href = e.target.getAttribute('href');
-    window.history.pushState(null, null, href);
-    router();
+    navigateTo(e.target.getAttribute('href'));
   }
 });
 

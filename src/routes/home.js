@@ -2,7 +2,7 @@ import '../styles/style.css';
 import '../component/custom-footer.js';
 import '../component/custom-header.js';
 import '../component/custom-nav.js';
-import '../component/custome-loading.js';
+import '../component/custom-loading.js';
 import '../component/note-card.js';
 import { createNote, getNotes, displayNotes } from '../main.js';
 

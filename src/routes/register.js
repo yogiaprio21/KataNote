@@ -1,3 +1,4 @@
+import { navigateTo } from '../script/routes.js';
 import Swal from 'sweetalert2';
 
 class RegisterComponent extends HTMLElement {
@@ -176,7 +177,7 @@ class RegisterComponent extends HTMLElement {
           timer: 2000,
           showConfirmButton: false,
         }).then(() => {
-          window.location.hash = '/login';
+          navigateTo('/login');
         });
       } else {
         Swal.fire({
