@@ -1,0 +1,33 @@
+{
+  "name": "KataNote",
+  "short_name": "KataNote",
+  "description": "Aplikasi catatan ringan untuk menulis, mencari, mengarsipkan, dan mengelola ide harian.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8faf7",
+  "theme_color": "#23483b",
+  "lang": "id",
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/images/katanote-brand-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/katanote-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/katanote-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

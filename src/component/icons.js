@@ -2,6 +2,7 @@ const icons = {
   archive: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l2-3h14l2 3"/><path d="M5 7h14v13H5z"/><path d="M9 11h6"/></svg>`,
   arrowUp: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>`,
   bookOpen: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v14"/><path d="M3 5.5A3.5 3.5 0 0 1 6.5 2H12v19H6.5A3.5 3.5 0 0 0 3 17.5z"/><path d="M12 2h5.5A3.5 3.5 0 0 1 21 5.5v12A3.5 3.5 0 0 0 17.5 14H12"/></svg>`,
+  brandMark: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 19V5h7l3 3v11H7z"/><path d="M14 5v3h3"/><path d="M9.5 16.5V8.2"/><path d="M10 15l5.2-5.4"/><path d="M12.2 12.3 17 17.1"/><path d="M15.4 9.4 18.8 8.6"/></svg>`,
   check: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>`,
   chevronRight: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>`,
   close: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>`,

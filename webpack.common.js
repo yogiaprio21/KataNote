@@ -41,6 +41,10 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         { from: 'src/images', to: 'images' },
+        { from: 'src/images/favicon.ico', to: 'favicon.ico' },
+        { from: 'src/site.webmanifest', to: 'site.webmanifest' },
+        { from: 'src/robots.txt', to: 'robots.txt' },
+        { from: 'src/sitemap.xml', to: 'sitemap.xml' },
       ],
     }),
   ],

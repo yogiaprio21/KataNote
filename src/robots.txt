@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kata-note.vercel.app/sitemap.xml

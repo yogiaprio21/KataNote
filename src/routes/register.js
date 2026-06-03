@@ -275,7 +275,7 @@ class RegisterComponent extends HTMLElement {
           <p class="auth-switch">Sudah punya akun? <a href="/login" data-link>Masuk</a></p>
         </div>
         <aside class="auth-panel">
-          <div class="brand"><span class="brand-mark">${icon('bookOpen')}</span>KataNote</div>
+          <div class="brand"><span class="brand-mark">${icon('brandMark')}</span>KataNote</div>
           <div>
             <h2>Mulai dengan alur yang rapi.</h2>
             <p>Register menjadi pintu masuk yang terasa niat: validasi jelas, kontrol terlihat, dan responsif untuk layar kecil.</p>

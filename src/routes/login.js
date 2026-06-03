@@ -239,7 +239,7 @@ class LoginComponent extends HTMLElement {
       </style>
       <section class="auth-shell">
         <aside class="auth-panel">
-          <div class="brand"><span class="brand-mark">${icon('bookOpen')}</span>KataNote</div>
+          <div class="brand"><span class="brand-mark">${icon('brandMark')}</span>KataNote</div>
           <div>
             <h1>Masuk ke ruang catatan.</h1>
             <p>Kelola ide aktif, arsip lama, dan referensi penting dari satu pengalaman yang lebih bersih.</p>

@@ -63,7 +63,7 @@ class CustomHeader extends HTMLElement {
         }
       </style>
       <header class="jumbotron">
-        <h1 class="jumbotron_title"><span class="brand-mark">${icon('bookOpen')}</span>KataNote</h1>
+        <h1 class="jumbotron_title"><span class="brand-mark">${icon('brandMark')}</span>KataNote</h1>
         <custom-nav></custom-nav>
       </header>
     `;

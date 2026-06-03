@@ -1,14 +1,20 @@
 {
   "name": "notes-apps_yogi-aprio",
   "version": "1.0.0",
-  "description": "",
+  "description": "KataNote is a responsive note-taking web app built with Web Components and the Dicoding Notes API.",
   "main": "index.js",
   "scripts": {
     "start-dev": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "katanote",
+    "notes-app",
+    "web-components",
+    "responsive-ui",
+    "portfolio"
+  ],
+  "author": "Yogi Aprio",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.24.4",
