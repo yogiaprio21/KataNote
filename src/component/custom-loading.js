@@ -9,7 +9,7 @@ class LoadingIndicator extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>
         :host {
-          display: none; /* Hidden by default */
+          display: none;
           align-items: center;
           justify-content: center;
           position: fixed;
@@ -17,17 +17,19 @@ class LoadingIndicator extends HTMLElement {
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: rgba(0, 0, 0, 0.5);
+          background-color: rgba(16, 28, 23, 0.28);
+          backdrop-filter: blur(4px);
           z-index: 9999;
         }
 
         .loading-spinner {
-          border: 16px solid #f3f3f3;
-          border-top: 16px solid #3498db;
+          border: 4px solid rgba(255, 255, 255, 0.65);
+          border-top: 4px solid var(--color-accent, #23483b);
           border-radius: 50%;
-          width: 120px;
-          height: 120px;
-          animation: spin 2s linear infinite;
+          width: 54px;
+          height: 54px;
+          animation: spin 0.8s linear infinite;
+          box-shadow: var(--shadow-md, 0 20px 50px rgba(0,0,0,0.16));
         }
 
         @keyframes spin {

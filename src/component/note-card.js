@@ -1,10 +1,18 @@
-import { deleteNote, archiveNote, unarchiveNote } from "../main.js";
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
+import { archiveNote, deleteNote, unarchiveNote } from '../main.js';
+import { icon } from './icons.js';
+
+const escapeHtml = (value = '') => String(value)
+  .replaceAll('&', '&amp;')
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;')
+  .replaceAll('"', '&quot;')
+  .replaceAll("'", '&#039;');
 
 class NoteCard extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: 'open' });
     this._note = null;
   }
 
@@ -13,188 +21,244 @@ class NoteCard extends HTMLElement {
     this.render();
   }
 
+  get note() {
+    return this._note;
+  }
+
   render() {
     if (!this._note) {
       this.shadowRoot.innerHTML = '';
       return;
     }
 
-    const { id, title, body, createdAt, archived } = this._note;
-    const isArchived = archived;
+    const { title, body, createdAt, archived } = this._note;
+    const safeTitle = escapeHtml(title);
+    const safeBody = escapeHtml(body);
+    const date = new Intl.DateTimeFormat('id-ID', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    }).format(new Date(createdAt));
 
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
       <style>
         :host {
-            display: flex;
+          display: flex;
+          min-width: 0;
         }
         .note-card {
-          background-color: var(--card-bg-color);
-          border-radius: 16px;
-          padding: 25px;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-          border: 1px solid #EAEAEA;
+          width: 100%;
+          min-height: 270px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          width: 100%;
+          padding: 22px;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-lg);
+          background: var(--color-surface);
+          box-shadow: var(--shadow-sm);
+          transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
         }
-
-        .note-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+        .note-card:hover,
+        .note-card:focus-within {
+          transform: translateY(-3px);
+          border-color: rgba(64, 125, 104, 0.34);
+          box-shadow: var(--shadow-md);
         }
-
-        .note-title {
-          font-weight: 700;
-          font-size: 1.5rem;
-          margin-bottom: 10px;
-          color: var(--primary-color);
+        .note-top {
+          display: grid;
+          gap: 14px;
         }
-
-        .note-body {
-          font-size: 1rem;
-          line-height: 1.7;
-          color: #555;
-          flex-grow: 1;
-          padding-bottom: 20px;
-        }
-
-        .note-footer {
-            border-top: 1px solid #F0F0F0;
-            padding-top: 20px;
-            margin-top: 20px;
-        }
-
-        .note-meta {
-          font-size: 0.85rem;
-          color: #888;
-          display: flex;
-          justify-content: space-between;
+        .note-status {
+          width: fit-content;
+          display: inline-flex;
           align-items: center;
-          margin-bottom: 20px;
+          gap: 6px;
+          padding: 6px 10px;
+          border-radius: 999px;
+          color: ${archived ? 'var(--color-warning)' : 'var(--color-accent)'};
+          background: ${archived ? 'rgba(180, 119, 40, 0.1)' : 'var(--color-accent-soft)'};
+          font-weight: 800;
+          font-size: 0.75rem;
         }
-
-        .note-archived {
-          background-color: var(--secondary-color);
-          color: var(--primary-color);
-          padding: 3px 8px;
-          border-radius: 6px;
-          font-weight: 500;
+        .note-title {
+          margin: 0;
+          color: var(--color-ink);
+          font-size: 1.2rem;
+          line-height: 1.25;
+          letter-spacing: 0;
+          overflow-wrap: anywhere;
         }
-        
+        .note-body {
+          margin: 0;
+          color: var(--color-muted);
+          font-size: 0.95rem;
+          line-height: 1.65;
+          overflow-wrap: anywhere;
+          display: -webkit-box;
+          -webkit-line-clamp: 5;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .note-footer {
+          display: grid;
+          gap: 18px;
+          padding-top: 18px;
+          margin-top: 24px;
+          border-top: 1px solid var(--color-border);
+        }
+        .note-meta {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          color: var(--color-soft-text);
+          font-size: 0.83rem;
+          font-weight: 700;
+        }
         .note-actions {
-            display: flex;
-            gap: 10px;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
         }
-
-        .note-actions button {
-            flex: 1;
-            padding: 12px;
-            font-size: 0.95rem;
-            gap: 8px;
-            border-radius: 10px;
+        button {
+          min-height: 42px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          border: 1px solid transparent;
+          border-radius: var(--radius-sm);
+          padding: 0 12px;
+          font: 800 0.88rem/1 var(--font-family);
+          cursor: pointer;
+          transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
         }
-
-        #note-delete {
-          background-color: transparent;
-          color: var(--error-color);
-          border: 1px solid var(--error-color);
+        button:focus-visible {
+          outline: 3px solid var(--color-focus);
+          outline-offset: 2px;
         }
-        
-        #note-delete:hover {
-            background-color: var(--error-color);
-            color: white;
-            transform: translateY(-2px);
+        .archive-button {
+          color: var(--color-on-accent);
+          background: var(--color-accent);
         }
-
-        #note-archive {
-          background-color: var(--primary-color);
-          border: 1px solid var(--primary-color);
+        .delete-button {
+          color: var(--color-danger);
+          background: var(--color-danger-soft);
+          border-color: rgba(183, 56, 56, 0.2);
         }
-        
-        #note-archive:hover {
-            background-color: #6a8a6b;
-            border-color: #6a8a6b;
-            transform: translateY(-2px);
+        button:hover {
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-xs);
+        }
+        svg {
+          width: 17px;
+          height: 17px;
+          fill: none;
+          stroke: currentColor;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        @media (max-width: 420px) {
+          .note-actions {
+            grid-template-columns: 1fr;
+          }
+          .note-card {
+            min-height: auto;
+            padding: 18px;
+          }
         }
       </style>
-      <div class="note-card">
-        <div>
-            <div class="note-title">${title}</div>
-            <div class="note-body">${body}</div>
+      <article class="note-card">
+        <div class="note-top">
+          <span class="note-status">${archived ? icon('archive') : icon('fileText')}${archived ? 'Diarsipkan' : 'Aktif'}</span>
+          <h3 class="note-title">${safeTitle}</h3>
+          <p class="note-body">${safeBody}</p>
         </div>
-        <div class="note-footer">
-            <div class="note-meta">
-              <span class="note-createdAt">${new Date(createdAt).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-              ${isArchived ? `<span class="note-archived">Diarsipkan</span>` : ""}
-            </div>
-            <div class="note-actions">
-                <button id="note-archive">
-                    <i class="fa-solid ${isArchived ? 'fa-arrow-up-from-bracket' : 'fa-box-archive'}"></i>
-                    ${isArchived ? 'Batal Arsip' : 'Arsipkan'}
-                </button>
-                <button id="note-delete"><i class="fa-solid fa-trash"></i>Hapus</button>
-            </div>
-        </div>
-      </div>
+        <footer class="note-footer">
+          <div class="note-meta">
+            <span>Dibuat ${date}</span>
+            <span>${String(body).length} karakter</span>
+          </div>
+          <div class="note-actions">
+            <button class="archive-button" type="button">
+              ${archived ? icon('arrowUp') : icon('archive')}
+              ${archived ? 'Pulihkan' : 'Arsipkan'}
+            </button>
+            <button class="delete-button" type="button">
+              ${icon('trash')}
+              Hapus
+            </button>
+          </div>
+        </footer>
+      </article>
     `;
 
-    this.shadowRoot.querySelector("#note-delete").addEventListener("click", () => this.handleDelete());
-    this.shadowRoot.querySelector("#note-archive").addEventListener("click", () => this.handleArchive());
+    this.shadowRoot.querySelector('.delete-button').addEventListener('click', () => this.handleDelete());
+    this.shadowRoot.querySelector('.archive-button').addEventListener('click', () => this.handleArchive());
   }
 
   async handleDelete() {
-    const noteId = this._note.id;
-    swal({
-      title: "Apakah Anda yakin?",
-      text: "Setelah dihapus, Anda tidak akan dapat memulihkan catatan ini!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then(async (willDelete) => {
-      if (willDelete) {
-        try {
-          await deleteNote(noteId);
-          this.remove();
-          swal("Catatan Anda telah dihapus!", {
-            icon: "success",
-          });
-          // Dispatch a custom event to notify that a note was deleted
-          document.dispatchEvent(new CustomEvent('note-deleted'));
-        } catch (error) {
-          swal("Gagal menghapus catatan!", {
-            icon: "error",
-          });
-        }
-      } else {
-        swal("Catatan Anda aman!");
-      }
+    const result = await Swal.fire({
+      title: 'Hapus catatan?',
+      text: 'Catatan yang dihapus tidak dapat dipulihkan dari API.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Hapus',
+      cancelButtonText: 'Batal',
+      confirmButtonColor: '#b73838',
     });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      await deleteNote(this._note.id);
+      this.dispatchRefresh('note-deleted');
+      await Swal.fire({
+        icon: 'success',
+        title: 'Catatan dihapus',
+        timer: 1400,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      await Swal.fire({
+        icon: 'error',
+        title: 'Gagal menghapus',
+        text: 'Silakan coba lagi beberapa saat.',
+        confirmButtonColor: '#23483b',
+      });
+    }
   }
 
   async handleArchive() {
-    const noteId = this._note.id;
-    const isArchived = this._note.archived;
-    const action = isArchived ? unarchiveNote : archiveNote;
-    const successMessage = isArchived ? "Catatan telah dipulihkan!" : "Catatan telah diarsipkan!";
+    const archived = this._note.archived;
+    const action = archived ? unarchiveNote : archiveNote;
+    const successMessage = archived ? 'Catatan dipulihkan' : 'Catatan diarsipkan';
 
     try {
-        await action(noteId);
-        this.remove();
-        swal(successMessage, {
-            icon: "success",
-        });
-        // Dispatch a custom event to notify that a note was archived/unarchived
-        document.dispatchEvent(new CustomEvent('note-archived'));
+      await action(this._note.id);
+      this.dispatchRefresh('note-archived');
+      await Swal.fire({
+        icon: 'success',
+        title: successMessage,
+        timer: 1400,
+        showConfirmButton: false,
+      });
     } catch (error) {
-        swal("Gagal memperbarui catatan!", {
-            icon: "error",
-        });
+      await Swal.fire({
+        icon: 'error',
+        title: 'Gagal memperbarui catatan',
+        text: 'Silakan coba lagi beberapa saat.',
+        confirmButtonColor: '#23483b',
+      });
     }
+  }
+
+  dispatchRefresh(type) {
+    document.dispatchEvent(new CustomEvent(type, { bubbles: true }));
+    document.dispatchEvent(new CustomEvent('notes-updated', { bubbles: true }));
   }
 }
 
-customElements.define("note-card", NoteCard);
+customElements.define('note-card', NoteCard);

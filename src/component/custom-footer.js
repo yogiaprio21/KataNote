@@ -9,16 +9,16 @@ class CustomFooter extends HTMLElement {
           display: block;
           width: 100%;
           text-align: center;
-          padding: 25px 0;
-          background-color: #f1f1f1;
-          margin-top: 50px;
-          border-top: 1px solid #ddd;
+          padding: 32px 16px;
+          box-sizing: border-box;
+          background-color: transparent;
+          border-top: 1px solid var(--color-border);
         }
         p {
           margin: 0;
-          font-weight: 500;
-          font-size: 1rem;
-          color: #555;
+          font-weight: 700;
+          font-size: 0.92rem;
+          color: var(--color-soft-text);
         }
       </style>
       <p>${this.innerHTML}</p>
